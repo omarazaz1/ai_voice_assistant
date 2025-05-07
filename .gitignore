@@ -1,0 +1,27 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment Variables
+.env
+
+# macOS
+.DS_Store
+
+# React / Node.js
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# Logs and IDE settings
+*.log
+.vscode/
+.idea/
+
+# Coverage reports
+htmlcov/
+.coverage
+.cache/
