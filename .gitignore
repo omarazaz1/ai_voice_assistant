@@ -25,3 +25,4 @@ frontend/.env
 htmlcov/
 .coverage
 .cache/
+
