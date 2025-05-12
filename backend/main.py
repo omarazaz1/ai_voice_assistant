@@ -5,7 +5,12 @@ import os
 from dotenv import load_dotenv
 
 # No need to import openai directly anymore
-from rag_engine import get_answer  # ✅ NEW: Import our RAG engine
+from rag_engine import get_answer  # NEW: Import our RAG engine
+
+from voice_chat import router as voice_router
+app.include_router(voice_router)
+
+
 
 # Load environment variables
 load_dotenv()
@@ -40,5 +45,5 @@ async def chat(request: Request):
         return {"response": answer}
 
     except Exception as e:
-        print("❌ RAG ERROR:", str(e))
+        print("RAG ERROR:", str(e))
         return JSONResponse(status_code=500, content={"error": str(e)})

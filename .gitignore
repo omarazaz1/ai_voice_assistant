@@ -7,6 +7,7 @@ __pycache__/
 
 # Environment Variables
 .env
+*.env
 
 # macOS
 .DS_Store
@@ -15,14 +16,41 @@ __pycache__/
 frontend/node_modules/
 frontend/build/
 frontend/.env
+frontend/.next/
+frontend/out/
+frontend/.turbo/
 
 # Logs and IDE settings
 *.log
 .vscode/
 .idea/
+*.code-workspace
 
 # Coverage reports
 htmlcov/
 .coverage
 .cache/
+.vector_store/
+.coverage.*
 
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Pytest
+.pytest_cache/
+
+# Pyre type checker
+.pyre/
+
+# mypy
+.mypy_cache/
+
+# PyInstaller
+dist/
+build/
+
+# Chroma vector store
+chromadb/
+
+# Deepgram / local API creds
+deepgram_config.json
