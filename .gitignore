@@ -54,3 +54,7 @@ chromadb/
 
 # Deepgram / local API creds
 deepgram_config.json
+
+
+# OpenAI API key
+openai_api_key.txt

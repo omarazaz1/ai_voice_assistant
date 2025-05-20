@@ -1,51 +1,59 @@
-# Full voice interaction handler: audio -> transcript -> response -> speech
-importos
-from fastapi import APIRouter,file, UploadFile
+
+
+from fastapi import APIRouter, File, UploadFile
 from deepgram import Deepgram
 from rag_engine import get_answer
 from voice_agent import text_to_speech
 from tempfile import NamedTemporaryFile
+import os
 from dotenv import load_dotenv
+import ssl
+import certifi
 
-
+ssl_context = ssl.create_default_context(cafile=certifi.where())
 load_dotenv()
-# Initialize Deepgram client
 
-dg_client = Deepgram(os.getenv("DEEPGRAM_API_KEY"))
 router = APIRouter()
+dg_client = Deepgram(os.getenv("DEEPGRAM_API_KEY"))
 
-@router.post("/voice_chat")
+@router.post("/voice-chat")
 async def voice_chat(file: UploadFile = File(...)):
-    
-    #save the uploaded file to a temporary location
-    with NamedTemporaryFile(delete= False , suffix  = ".wav") as tmp:
+    # Save uploaded audio to a temporary file
+    with NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
         tmp.write(await file.read())
         tmp_path = tmp.name
-       # print(f"Temporary file saved at: {tmp_path}")
-       
-# Transcribe using Deepgram
 
-    with open(tmp_path, "rb") as audio:
-        source = {"buffer": audio, "mimetype": file.content_type}
-        response = await dg_client.transcription.prerecorded(source, {"punctuate": True})
-        transcript = response["results"]["channels"][0]["alternatives"][0]["transcript"]
-        print(f"Response: {transcript}")
-        
-    # Get answer using RAG
-    ai_response = get_answer(transcript, user_id="voice_user")
-    print("AI Response: {ai_response}")
-    
-    #convert text to speech
-    text_to_speech(ai_response, filename="output.mp3")
-    return {"transcript": transcript,
-            "ai_response": ai_response,
-            "audio_file": "output.mp3"}
-    
-    
-    #cleanup the temporary file(optional)
-    os.remove(tmp_path)
+    try:
+        # Transcribe audio using Deepgram
+        with open(tmp_path, "rb") as audio:
+            source = {"buffer": audio, "mimetype": file.content_type}
+            response = await dg_client.transcription.prerecorded(source, {"punctuate": True})
+            transcript = response["results"]["channels"][0]["alternatives"][0]["transcript"]
+            print(f"Transcript: {transcript}")
 
-            
-       
-        
-        
+        # Generate RAG answer
+        ai_response = get_answer(transcript, user_id="voice_user")
+        print(f"AI Response from RAG: '{ai_response}'")
+
+        # Convert response to speech
+        output_audio_path = "output.mp3"
+        text_to_speech(ai_response, filename=output_audio_path)
+
+        # Return the response and audio filename
+        return {
+            "transcript": transcript,
+            "response": ai_response,
+            "audio_file": output_audio_path
+        }
+
+
+    finally:
+    # Clean up the uploaded temp WAV file
+     if os.path.exists(tmp_path):
+        os.remove(tmp_path)
+
+    # Clean up the generated audio file
+    if os.path.exists("output.mp3"):
+        os.remove("output.mp3")
+
+    

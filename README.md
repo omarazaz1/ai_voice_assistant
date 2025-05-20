@@ -1,57 +1,39 @@
-AI Voice Assistant Project Checklist
+#  AI Voice Assistant Web App
 
-1- FastAPI backend setup
+A full-stack voice assistant that lets users speak or type to interact with an intelligent RAG-based backend, powered by OpenAI, Deepgram, and LangChain — with a sleek Next.js + ShadCN frontend.
 
-2- .env configuration with OpenAI, Deepgram, and ElevenLabs API keys
+---
 
-3- /chat endpoint using OpenAI (GPT-3.5)
+## Tech Stack
 
-4- RAG integration with LangChain + ChromaDB
+| Layer        | Tools / Frameworks                                   |
+|--------------|------------------------------------------------------|
+| Frontend     | Next.js, Tailwind CSS, ShadCN UI                     |
+| Backend      | FastAPI                                              |
+| Voice Input  | Deepgram Speech-to-Text                              |
+| Voice Output | Deepgram Text-to-Speech                              |
+| RAG System   | LangChain + Chroma + OpenAI GPT                      |
+| Storage      | Local vector store (`ChromaDB`)                      |
 
-5- Document ingestion with ing_docs.py
+---
 
-6- Voice output integration using ElevenLabs (voice_agent.py)
+## How It Works
 
-TBD
+1. User speaks into the app (mic input).
+2. Audio is sent to the FastAPI backend.
+3. The backend uses Deepgram to transcribe voice to text.
+4. That text query is passed to LangChain, which retrieves relevant context from -ChromaDB-.
+5. The final prompt is sent to OpenAI, which generates a response.
+6. The response is turned into audio using Deepgram TTS.
+7. Both the response text and generated audio are sent back to the frontend.
 
-7- Voice input
+---
 
- Frontend microphone capture (WebRTC or HTML5)
+##  Features
 
- Real-time Deepgram transcription
-
- Pipe transcript to /chat and return voice
-
-8- Frontend interface
-
- Build React or HTML+JS frontend
-
- Show user messages and AI responses
-
- Play voice answers from ElevenLabs
-
- Add UI loading/typing effect
-
-9- Dashboard
-
- Track and store user queries
-
- Show most asked questions
-
- Display analytics (counts, user IDs)
-
- Export logs or reports
-
-
-
-10- Deployment
-
- Containerize app with Docker
-
- Deploy backend (Render / Railway / Fly.io / EC2.) EC2 prefer.
-
- Handle vector_store/ on production .
-
- Store and load .env from cloud environment
-
-
+-  Voice-to-voice interaction
+-  Text chat support
+-  RAG (Retrieval-Augmented Generation) powered answers
+-  ShadCN UI + Tailwind styling
+-  AI-generated voice replies
+- Chat history stored locally
