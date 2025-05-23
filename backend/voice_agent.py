@@ -12,7 +12,7 @@ def text_to_speech(text: str, filename: str = "output.mp3"):
     if not api_key:
         raise ValueError("Missing DEEPGRAM_API_KEY")
 
-    url = "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=mp3"  # ✅ PASS model & encoding as query params
+    url = "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=mp3"  #  PASS model & encoding as query params
 
     headers = {
         "Authorization": f"Token {api_key}",
@@ -20,18 +20,18 @@ def text_to_speech(text: str, filename: str = "output.mp3"):
     }
 
     payload = {
-        "text": text  # ✅ ONLY this is required in JSON
+        "text": text  # ONLY this is required in JSON
     }
 
-    print("🔊 Sending TTS request with:", payload)
+    print(" Sending TTS request with:", payload)
 
     response = requests.post(url, headers=headers, json=payload)
 
-    print("🔁 Deepgram TTS response:", response.status_code, response.text[:200])
+    print(" Deepgram TTS response:", response.status_code, response.text[:200])
 
     if response.status_code == 200:
         with open(filename, "wb") as f:
             f.write(response.content)
-        print(f"✅ Audio saved as {filename}")
+        print(f" Audio saved as {filename}")
     else:
         raise RuntimeError(f"TTS failed: {response.status_code} {response.text}")

@@ -29,7 +29,7 @@ splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 chunks = splitter.split_documents(documents)
 
 #embed the chunks and stor e them in chroma
-#embeddings = OpenAIEmbeddings()
+
 vectorstore = Chroma.from_documents(chunks, embeddings, persist_directory="./vector_store")
-#vectorstore.persist()
+
 print("Documents loaded and stored.")

@@ -1,30 +1,43 @@
-
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from fastapi.responses import FileResponse, JSONResponse #just added 
-
+from fastapi.responses import JSONResponse, FileResponse
 import os
-
-
-from rag_engine import get_answer  # RAG engine
-from voice_chat import router as voice_router
-
 from dotenv import load_dotenv
 from pathlib import Path
+from langchain_openai import ChatOpenAI
 
-
-# Load environment variables from .env file
-
-
+# Load environment variables
 load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
 
-
+# Initialize FastAPI
 app = FastAPI()
 
+# Import routes
+from rag_engine import get_answer
+from voice_chat import router as voice_router
+from twilio_webhook import router as twilio_router
 
+# Register routes
+app.include_router(voice_router)
+app.include_router(twilio_router)
 
-from langchain_openai import ChatOpenAI #temporary import
+# CORS config for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    
+    
+)
+
+@app.post("/")
+async def root_post():
+    return {"message": "This endpoint only supports GET or is not used."}
+
+@app.get("/")
+def read_root():
+    return {"message": "Omar AI Voice Assistant API is running Thank you for testing!"}
 
 @app.get("/test-openai")
 async def test_openai():
@@ -35,33 +48,13 @@ async def test_openai():
     except Exception as e:
         return {"error": str(e)}
 
-
-
-# Include the voice router
-app.include_router(voice_router)
-
-# CORS config for frontend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/")
-def read_root():
-   return {"message": "Omar AI Voice Assistant API is running Thank you for testing !"}
-   
-@app.get("/audio")  # Added endpoint to serve audio
+@app.get("/audio")
 def get_audio():
     audio_path = "output.mp3"
     if os.path.exists(audio_path):
-        #  Serve the generated audio file
         return FileResponse(audio_path, media_type="audio/mpeg")
     else:
-        # Handle file not found error
-        return JSONResponse(status_code=404, content={"error": "Audio not found"}) # end
-
+        return JSONResponse(status_code=404, content={"error": "Audio not found"})
 
 @app.post("/chat")
 async def chat(request: Request):
@@ -73,9 +66,7 @@ async def chat(request: Request):
         print(" RAG Question:", question)
 
         answer = get_answer(question, user_id)
-
         return {"response": answer}
-
     except Exception as e:
         print("RAG ERROR:", str(e))
         return JSONResponse(status_code=500, content={"error": str(e)})

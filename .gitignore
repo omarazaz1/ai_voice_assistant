@@ -58,3 +58,7 @@ deepgram_config.json
 
 # OpenAI API key
 openai_api_key.txt
+
+# Ignore generated audio and vector DB
+backend/output.mp3
+backend/vector_store/
