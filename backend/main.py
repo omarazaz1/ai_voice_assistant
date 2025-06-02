@@ -31,9 +31,14 @@ app.add_middleware(
     
 )
 
+# @app.post("/")
+# async def root_post():
+#     return {"message": "This endpoint only supports GET or is not used."}
+from fastapi import status
 @app.post("/")
 async def root_post():
-    return {"message": "This endpoint only supports GET or is not used."}
+    return JSONResponse(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, content={"error": "POST not allowed here."})
+
 
 @app.get("/")
 def read_root():
@@ -64,6 +69,8 @@ async def chat(request: Request):
         user_id = body.get("user_id", "guest")
 
         print(" RAG Question:", question)
+        
+        
 
         answer = get_answer(question, user_id)
         return {"response": answer}

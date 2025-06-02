@@ -20,7 +20,7 @@ def text_to_speech(text: str, filename: str = "output.mp3"):
     }
 
     payload = {
-        "text": text  # ONLY this is required in JSON
+        "text": text  
     }
 
     print(" Sending TTS request with:", payload)

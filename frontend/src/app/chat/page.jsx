@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
-import { motion } from 'framer-motion'
+//import { motion } from 'framer-motion'
 import FloatingMic from '@/components/FloatingMic'
 import ChatBox from '@/components/ChatBox'
 import Loader from '@/components/Loader'
