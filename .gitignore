@@ -1,18 +1,60 @@
-# Python
+# This is a .gitignore file for a project that includes both frontend and backend components.
+
+# General
+.DS_Store
+*.log
+*.pem
+*.code-workspace
+
+# Node.js / Frontend
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+coverage/
+build/
+dist/
+.cache/
+.next/
+.out/
+.turbo/
+
+# Python / Backend
 venv/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.mypy_cache/
+.pytest_cache/
+.pyre/
+*.tsbuildinfo
+*.ipynb_checkpoints
+.deepgram_config.json
+openai_api_key.txt
+output.mp3
+
+# Chroma vector store
+vector_store/
+backend/vector_store/
 
 # Environment Variables
 .env
+.env.*
 *.env
 
-# macOS
-.DS_Store
+# IDEs & Editors
+.vscode/
+.idea/
 
-# React / Node.js
+# Vercel / Hosting
+.vercel/
+
+# Frontend-specific (Next.js + React)
 frontend/node_modules/
 frontend/build/
 frontend/.env
@@ -20,45 +62,7 @@ frontend/.next/
 frontend/out/
 frontend/.turbo/
 
-# Logs and IDE settings
-*.log
-.vscode/
-.idea/
-*.code-workspace
-
-# Coverage reports
-htmlcov/
+# Coverage Reports
 .coverage
-.cache/
-.vector_store/
 .coverage.*
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# Pytest
-.pytest_cache/
-
-# Pyre type checker
-.pyre/
-
-# mypy
-.mypy_cache/
-
-# PyInstaller
-dist/
-build/
-
-# Chroma vector store
-chromadb/
-
-# Deepgram / local API creds
-deepgram_config.json
-
-
-# OpenAI API key
-openai_api_key.txt
-
-# Ignore generated audio and vector DB
-backend/output.mp3
-backend/vector_store/
+htmlcov/
