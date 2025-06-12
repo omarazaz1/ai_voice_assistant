@@ -6,4 +6,4 @@ chromadb
 python-dotenv
 requests
 tinydb
-
+langchain-openai

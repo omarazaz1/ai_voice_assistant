@@ -19,7 +19,6 @@ load_dotenv(dotenv_path=env_path)
 #pass the openai key to the embeddings
 embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
 
-
 #load the docs 
 loader = TextLoader("company_in.txt")
 documents = loader.load()

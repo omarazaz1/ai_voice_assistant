@@ -1,0 +1,78 @@
+ About the AI Voice Assistant
+ This AI assistant is designed to help users interact using voice or text, providing intelligent responses from a personalized knowledge base via a Retrieval-Augmented Generation (RAG) pipeline. It uses Deepgram for voice processing and OpenAI for natural language responses.
+
+The AI Voice Assistant is a smart conversational tool that lets users interact using either voice or text. It is designed for customer support, general Q&A, and real-time voice conversations using web or phone interfaces.
+
+This assistant is built using:
+
+FastAPI backend
+
+Deepgram for voice input and TTS
+
+OpenAI for intelligent answers
+
+LangChain and Chroma for Retrieval-Augmented Generation (RAG)
+
+ How to Use the Assistant
+Text: Type your question into the chat box and click “Send.”
+
+Voice: Click the 🎤 microphone button to record your voice.
+
+The AI responds with both a text message and synthesized voice.
+
+Phone Call: You can also call the AI assistant using a Twilio-integrated number and speak your question.
+
+Frequently Asked Questions
+Q: Can I use my voice instead of typing?
+A: Yes! Click the microphone icon and record your question.
+
+Q: How long can I talk during voice input?
+A: Voice recording is limited to 5 seconds per input (adjustable in code).
+
+Q: What happens to my recordings?
+A: The app processes them and deletes the audio after generating a response.
+
+Q: Can I call the assistant on a phone?
+A: Yes. When calling, the assistant uses Twilio to transcribe your voice and generate responses.
+
+Q: Why does the Twilio voice sound robotic?
+A: Twilio's built-in TTS is basic. Our web voice uses Deepgram for better voice quality.
+
+Q: Who devolop this app?
+A: Omar Ahmed
+
+Q:what is the assistant name?
+A: My name is AZAZ
+
+ Technical Overview
+ RAG Pipeline
+Ingestion: Documents are broken into chunks and stored as embeddings using Chroma.
+
+Retrieval: On each user query, the most relevant chunks are retrieved from the vector DB.
+
+Generation: OpenAI's model uses retrieved context to create a rich, accurate answer.
+
+ Voice Features
+STT: Deepgram transcribes audio input.
+
+TTS: Deepgram generates natural voice audio for AI replies.
+
+Call Handling: Twilio manages incoming calls and routing.
+
+ APIs and Endpoints
+POST /chat: Handles text-based queries.
+
+POST /voice-chat: Accepts .webm audio and returns a response.
+
+GET /audio: Delivers synthesized voice as .mp3 after a voice query.
+
+POST /twilio-call: Processes live phone call speech and responds using Twilio.
+
+ Troubleshooting
+Mic not working? Check browser permission settings.
+
+Voice output silent? Ensure the audio tag is not muted.
+
+Call doesn’t respond? Twilio may not be properly configured or online.
+
+Wrong answers? Update or expand your knowledge base and re-ingest.

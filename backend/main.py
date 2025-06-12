@@ -30,15 +30,11 @@ app.add_middleware(
     
     
 )
-
-# @app.post("/")
-# async def root_post():
-#     return {"message": "This endpoint only supports GET or is not used."}
+# Handle POST requests to root
 from fastapi import status
 @app.post("/")
 async def root_post():
     return JSONResponse(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, content={"error": "POST not allowed here."})
-
 
 @app.get("/")
 def read_root():
@@ -61,6 +57,7 @@ def get_audio():
     else:
         return JSONResponse(status_code=404, content={"error": "Audio not found"})
 
+# Main chat endpoint
 @app.post("/chat")
 async def chat(request: Request):
     try:
@@ -70,10 +67,10 @@ async def chat(request: Request):
 
         print(" RAG Question:", question)
         
-        
-
         answer = get_answer(question, user_id)
+        
         return {"response": answer}
+    
     except Exception as e:
         print("RAG ERROR:", str(e))
         return JSONResponse(status_code=500, content={"error": str(e)})
